@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no"/>
+    <meta name="renderer" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+
+    <script src="/js/mdui.min.js"></script>
+    <link rel="stylesheet" href="/css/mdui.min.css" />
+
+    <title>hi,chat!</title>
+    
+    <style>
+        .mdui-appbar .mdui-toolbar.mdui-color-theme {
+            background-color: #0091EA !important; /* 主色调设置为蓝色 */
+        }
+        .layout {
+            display: flex;
+            align-items: stretch;
+            height: 100vh;
+        }
+        .mdui-list {
+            width: 360px;
+            overflow-y: auto;
+            height: calc(100vh - 56px);
+            box-shadow: 1px 0 5px rgba(0,0,0,0.1);
+        }
+        .chat-area {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        /* 气泡框样式 */
+.message-bubble {
+    background-color: #f1f0f0; /* 气泡背景色 */
+    border-radius: 30px; /* 圆角 */
+    border: 1px solid #ddd; /* 边框 */
+    padding: 10px; /* 内边距 */
+    display: inline-block; /* 使元素根据内容调整大小 */
+    margin-bottom: 10px; /* 与下一个元素的间距 */
+    word-wrap: break-word; /* 自动换行 */
+}
+/* 自己的气泡框样式 */
+.message-bubble.me {
+    background-color: #ADD8E6; /* 浅蓝色背景色 */
+    color: #000; /* 文本颜色 */
+    margin-left: auto; /* 保持右对齐 */
+    margin-right: 0;
+}
+/* 系统消息气泡样式 */
+.message-bubble.system {
+    color: #666; /* 文本颜色设为深灰色以确保可读性 */
+    display: block; /* 使用 block 而不是 inline-block 以允许居中对齐 */
+    text-align: center; /* 文本居中 */
+    margin: 10px auto; /* 上下边距为 10px，左右自动（居中对齐气泡框） */
+    padding: 10px; /* 内边距 */
+    border-radius: 20px; /* 圆角 */
+    max-width: 80%; /* 最大宽度，确保不会过宽 */
+    word-wrap: break-word; /* 自动换行 */
+}
+
+
+
+
+    </style>
+</head>
+<body>
+    <!-- 欢迎消息条 -->
+    <!--<mdui-snackbar class="example-snackbar"></mdui-snackbar>-->
+    <!-- 标题栏 -->
+    <div class="mdui-appbar">
+  <div class="mdui-toolbar mdui-color-theme">
+    <a href="javascript:;" class="mdui-btn mdui-btn-icon">
+      <i class="mdui-icon material-icons">menu</i>
+    </a>
+    <a href="javascript:;" class="mdui-typo-headline">HC聊</a>
+    <a href="javascript:;" class="mdui-typo-title">聊天</a>
+    <div class="mdui-toolbar-spacer"></div>
+  </div>
+</div>
+  
+  <div class="layout">
+        <div class="user-list mdui-list">
+            <!-- 用户列表项 -->
+            <ul class="mdui-list" style="max-width: 360px;">
+    <li class="mdui-list-item">
+      <div class="mdui-list-item-avatar"><img src="https://q1.qlogo.cn/g?b=qq&nk=2704478857&s=100"/></div>
+    <div class="mdui-list-item-content">橙子/站长/反馈</div>
+    <div class="mdui-chip"><span class="mdui-chip-title">站长</span></div>
+    </li>
+    <li class="mdui-list-item">
+      <div class="mdui-list-item-avatar"><img src="https://q1.qlogo.cn/g?b=qq&nk=3311502008&s=100"/></div>
+      <div class="mdui-list-item-content">AppleAppStore(Apple.inc)</div>
+      <div class="mdui-chip"><span class="mdui-chip-title">开发人员</span></div>
+    </li>
+    <li class="mdui-list-item">
+      <div class="mdui-list-item-avatar"><img src="https://q1.qlogo.cn/g?b=qq&nk=1323738778&s=100"/></div>
+      <div class="mdui-list-item-content">陶子[炸图监管者]</div>
+      <div class="mdui-chip"><span class="mdui-chip-title">开发人员</span></div>
+    </li>
+    <li class="mdui-list-item">
+      <div class="mdui-list-item-avatar"><img src="https://q1.qlogo.cn/g?b=qq&nk=692673434&s=100"/></div>
+      <div class="mdui-list-item-content">小文集团</div>
+      <div class="mdui-chip"><span class="mdui-chip-title">开发人员</span></div>
+    </li>
+    <li class="mdui-list-item">
+      <div class="mdui-list-item-avatar"><img src="https://q1.qlogo.cn/g?b=qq&nk=3596038264&s=100"/></div>
+      <div class="mdui-list-item-content">王一博</div>
+      <div class="mdui-chip"><span class="mdui-chip-title">开发人员</span></div>
+    </li>
+    <li class="mdui-list-item">
+      <div class="mdui-list-item-avatar">黑</div>
+      <div class="mdui-list-item-content">黑客</div>
+      <div class="mdui-chip"><span class="mdui-chip-title">用户</span></div>
+    </li>
+  </ul>
+        </div>
+        <div class="chat-area">
+            <div class="mdui-card">
+                <!-- 卡片内容，作为聊天对话框 -->
+                <div class="mdui-card-primary">
+                    <div class="mdui-card-primary-title">聊天室</div>
+                </div>
+                <div class="mdui-row">
+                <div class="mdui-card-content">
+                    <!-- 用户 -->
+                    <div class="mdui-chip">
+                        <span class="mdui-chip-icon">
+                            黑
+                        </span>
+                        <span class="mdui-chip-title">
+                            黑客
+                        </span>
+                    </div>
+                    <br>
+                    <div class="message-bubble">
+                        <p>我是黑客</p>
+                    </div>
+                </div>
+                <div class="mdui-card-content">
+                    <!-- 用户 -->
+                    <div class="mdui-chip">
+                        <span class="mdui-chip-icon">
+                            🍊
+                        </span>
+                        <span class="mdui-chip-title">
+                            橙子
+                        </span>
+                    </div>
+                    <br>
+                    <div class="message-bubble me">
+                        <p>6，踢了</p>
+                    </div>
+                </div>
+                <div class="message-bubble system">黑客被橙子移除群聊</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+  <div class="mdui-dialog"></div>
+  <!-- 添加好友按钮 -->
+    <button class="mdui-fab mdui-ripple mdui-color-theme-accent mdui-fab-fixed" onclick="addFriendPrompt()">
+        <i class="mdui-icon material-icons">add</i>
+    </button>
+  
+    <script>
+    // 添加好友函数
+    function addFriendPrompt() {
+        mdui.prompt('请输入用户ID：', '添加好友',
+        function (value) {
+        mdui.alert('你输入了：' + value + '，点击了确认按钮');
+        },
+        function (value) {
+            mdui.alert('你输入了：' + value + '，点击了取消按钮');
+        }
+    );
+    }
+    function setCookie(name, value, days) {
+        var expires = "";
+        if (days) {
+            var date = new Date();
+            date.setTime(date.getTime() + (days*24*60*60*1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        // 添加 domain 属性以便跨子域访问
+        var domain = "; domain=.woskzm.cn";
+        document.cookie = name + "=" + (value || "")  + expires + domain + "; path=/";
+    }
+    function checkToken() {
+        // 尝试从localStorage获取token
+        const token = localStorage.getItem('inspect');
+
+        // 检查token是否存在
+        if (token) {
+            // 解析存储的字符串为对象
+            const tokenObj = JSON.parse(token);
+
+            // 检查token值和过期时间
+            if (tokenObj.value === 'success' && new Date().getTime() < tokenObj.expiry) {
+                console.log('Token存在，且值为success，没有过期。');
+                return true;
+            } else {
+                console.log('Token存在但是值不是success或者已经过期。');
+                return false;
+            }
+        } else {
+        console.log('Token不存在。');
+        return false;
+        }
+    }
+    function Snackbar(text) {
+        // 这个函数用来弹出消息条
+        const snackbar = document.querySelector(".example-snackbar");
+        const openButton = snackbar.nextElementSibling;
+        snackbar.innerText = text;
+        // 获取返回的内容并判断
+        const snackbarReturn = (snackbar.open = true);
+        return snackbarReturn;
+    }
+    // 页面加载完成
+    console.log("等待页面加载...");
+    window.onload = function(){
+        const example_stacked_actions = document.querySelector(".example-stacked-actions");
+
+        // 判断是否验证用户
+        // if (checkToken() == false) {
+        //     Snackbar("你的请求被阻止：请验证！");
+        // } else {
+        //     Snackbar("你的请求已放行，欢迎您！")
+        // }
+
+    };
+    </script>
+    
+</body>
+</html>
