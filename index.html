@@ -177,61 +177,6 @@
         }
     );
     }
-    function setCookie(name, value, days) {
-        var expires = "";
-        if (days) {
-            var date = new Date();
-            date.setTime(date.getTime() + (days*24*60*60*1000));
-            expires = "; expires=" + date.toUTCString();
-        }
-        // 添加 domain 属性以便跨子域访问
-        var domain = "; domain=.woskzm.cn";
-        document.cookie = name + "=" + (value || "")  + expires + domain + "; path=/";
-    }
-    function checkToken() {
-        // 尝试从localStorage获取token
-        const token = localStorage.getItem('inspect');
-
-        // 检查token是否存在
-        if (token) {
-            // 解析存储的字符串为对象
-            const tokenObj = JSON.parse(token);
-
-            // 检查token值和过期时间
-            if (tokenObj.value === 'success' && new Date().getTime() < tokenObj.expiry) {
-                console.log('Token存在，且值为success，没有过期。');
-                return true;
-            } else {
-                console.log('Token存在但是值不是success或者已经过期。');
-                return false;
-            }
-        } else {
-        console.log('Token不存在。');
-        return false;
-        }
-    }
-    function Snackbar(text) {
-        // 这个函数用来弹出消息条
-        const snackbar = document.querySelector(".example-snackbar");
-        const openButton = snackbar.nextElementSibling;
-        snackbar.innerText = text;
-        // 获取返回的内容并判断
-        const snackbarReturn = (snackbar.open = true);
-        return snackbarReturn;
-    }
-    // 页面加载完成
-    console.log("等待页面加载...");
-    window.onload = function(){
-        const example_stacked_actions = document.querySelector(".example-stacked-actions");
-
-        // 判断是否验证用户
-        // if (checkToken() == false) {
-        //     Snackbar("你的请求被阻止：请验证！");
-        // } else {
-        //     Snackbar("你的请求已放行，欢迎您！")
-        // }
-
-    };
     </script>
     
 </body>
